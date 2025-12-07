@@ -1,0 +1,24 @@
+name: Checkout Repository
+description: Clone a Repository
+inputs:
+  url:
+    description: 'Repository URL to Clone'
+    required: true
+  dir:
+    description: 'Directory to Clone Into'
+    required: false
+    default: '.'
+  token:
+    description: 'Authentication Token'
+    required: false
+  branch:
+    description: 'Branch to Clone'
+    required: false
+
+runs:
+  using: composite
+  steps:
+    - name: Cloning Repository
+      shell: bash
+      run: |
+        ./clone.sh "${{ inputs.url }}" "${{ inputs.dir }}" "${{ inputs.token }}" "${{ inputs.branch }}"
