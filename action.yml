@@ -3,7 +3,8 @@ description: Clone a Repository
 inputs:
   url:
     description: 'Repository URL to Clone'
-    required: true
+    required: false
+    default: ${{ gitea.repository }}
   dir:
     description: 'Directory to Clone Into'
     required: false
