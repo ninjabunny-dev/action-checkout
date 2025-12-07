@@ -4,7 +4,7 @@ inputs:
   url:
     description: 'Repository URL to Clone'
     required: false
-    default: ${{ gitea.repository }}
+    default: ${{ env.GITEA_REPOSITORY }}
   dir:
     description: 'Directory to Clone Into'
     required: false
