@@ -9,9 +9,9 @@ inputs:
     description: 'Directory to Clone Into'
     required: false
     default: '.'
-  token:
-    description: 'Authentication Token'
-    required: false
+  ssh_key:
+    description: 'SSH Private Key for authentication'
+    required: true
   branch:
     description: 'Branch to Clone'
     required: false
@@ -25,9 +25,8 @@ runs:
         set -e
         
         URL="${{ inputs.url }}"
-        echo $URL
         DIR="${{ inputs.dir }}"
-        TOKEN="${{ inputs.token }}"
+        SSH_KEY="${{ inputs.ssh_key }}"
         BRANCH="${{ inputs.branch }}"
         
         if [[ -z "$URL" ]]; then
@@ -45,13 +44,14 @@ runs:
           CLONE_CMD="$CLONE_CMD --branch $BRANCH"
         fi
         
-        if [[ -n "$TOKEN" ]]; then
-          # Remove protocol from URL if present, then add it back with token
-          CLEAN_URL=$(echo "$URL" | sed 's|^https://||' | sed 's|^http://||')
-          CLONE_CMD="$CLONE_CMD https://${TOKEN}@${CLEAN_URL}"
-        else
-          CLONE_CMD="$CLONE_CMD $URL"
-        fi
+        # Setup SSH key
+        mkdir -p ~/.ssh
+        echo "$SSH_KEY" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        
+        echo "StrictHostKeyChecking=no" >> ~/.ssh/config
+        
+        CLONE_CMD="$CLONE_CMD $URL"
         
         CLONE_CMD="$CLONE_CMD $DIR"
         
