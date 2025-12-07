@@ -25,7 +25,7 @@ runs:
         set -e
         
         URL="${{ inputs.url }}"
-        echo URL
+        echo $URL
         DIR="${{ inputs.dir }}"
         TOKEN="${{ inputs.token }}"
         BRANCH="${{ inputs.branch }}"
