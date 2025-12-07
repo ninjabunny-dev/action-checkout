@@ -22,4 +22,5 @@ runs:
     - name: Cloning Repository
       shell: bash
       run: |
+        chmod +x ./clone.sh
         ./clone.sh "${{ inputs.url }}" "${{ inputs.dir }}" "${{ inputs.token }}" "${{ inputs.branch }}"
